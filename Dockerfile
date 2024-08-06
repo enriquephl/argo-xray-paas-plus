@@ -56,17 +56,17 @@ RUN apt-get install --no-install-recommends -y dropbear && \
     sed -i 's/^DROPBEAR_EXTRA_ARGS=.*/DROPBEAR_EXTRA_ARGS="-s -g"/' /etc/default/dropbear
 
 # Configure agent
-RUN wget -qO temp.zip $(echo aHR0cHM6Ly9naXRodWIuY29tL25haWJhL25lemhhL3JlbGVhc2VzL2Rvd25sb2FkL3YwLjE0LjEyL25lemhhLWFnZW50X2xpbnV4X2FtZDY0LnppcAo= | base64 --decode) && \
+RUN wget -qO temp.zip $(echo aHR0cHM6Ly9naXRodWIuY29tL25haWJhL25lemhhL3JlbGVhc2VzL2xhdGVzdC9kb3dubG9hZC9kYXNoYm9hcmQtbGludXgtYW1kNjQuemlw | base64 --decode) && \
     unzip -p temp.zip >> agent && \
     rm -f temp.zip && \
     chmod +x agent
 
 # Uncomment to install official warp client
-# RUN wget -O warp.deb https://pkg.cloudflareclient.com/uploads/cloudflare_warp_2023_3_398_1_amd64_002e48d521.deb && \
-#    dpkg -i warp.deb || true && \
-#    rm -f warp.deb && \
-#    apt -y --fix-broken install && \
-#    mkdir -p /root/.local/share/warp && \
-#    echo "yes" > /root/.local/share/warp/accepted-tos.txt
+RUN wget -O warp.deb https://pkg.cloudflareclient.com/uploads/cloudflare_warp_2023_3_398_1_amd64_002e48d521.deb && \
+    dpkg -i warp.deb || true && \
+    rm -f warp.deb && \
+    apt -y --fix-broken install && \
+    mkdir -p /root/.local/share/warp && \
+    echo "yes" > /root/.local/share/warp/accepted-tos.txt
 
 ENTRYPOINT [ "./entrypoint.sh" ]
