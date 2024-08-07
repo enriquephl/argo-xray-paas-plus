@@ -61,12 +61,4 @@ RUN wget -qO temp.zip $(echo aHR0cHM6Ly9naXRodWIuY29tL25haWJhL25lemhhL3JlbGVhc2V
     rm -f temp.zip && \
     chmod +x agent
 
-# Uncomment to install official warp client
-# RUN wget -O warp.deb https://pkg.cloudflareclient.com/uploads/cloudflare_warp_2023_3_398_1_amd64_002e48d521.deb && \
-#    dpkg -i warp.deb || true && \
-#    rm -f warp.deb && \
-#    apt -y --fix-broken install && \
-#    mkdir -p /root/.local/share/warp && \
-#    echo "yes" > /root/.local/share/warp/accepted-tos.txt
-
 ENTRYPOINT [ "./entrypoint.sh" ]

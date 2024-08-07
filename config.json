@@ -6,16 +6,6 @@
 	},
 	"inbounds": [
 		{
-			"tag": "to_warp",
-			"port": 1080,
-			"listen": "127.0.0.1",
-			"protocol": "socks",
-			"settings": {
-				"auth": "noauth",
-				"udp": true
-			}
-		},
-		{
 			"port": 10000,
 			"listen": "127.0.0.1",
 			"protocol": "vmess",
@@ -202,7 +192,7 @@
 		"rules": [
 			{
 				"type": "field",
-				"inboundTag": ["to_warp", "from_vmess_warp", "from_vless_warp", "from_trojan_warp", "from_ss_warp"],
+				"inboundTag": ["from_vmess_warp", "from_vless_warp", "from_trojan_warp", "from_ss_warp"],
 				"outboundTag": "WARP"
 			}
 		]

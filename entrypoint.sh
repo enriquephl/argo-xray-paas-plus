@@ -76,12 +76,4 @@ base64 -d config > config.json
 wget -q https://github.com/Loyalsoldier/v2ray-rules-dat/releases/latest/download/geoip.dat
 wget -q https://github.com/Loyalsoldier/v2ray-rules-dat/releases/latest/download/geosite.dat
 
-# 启动Warp, 需要在Dockerfile中启用安装Warp官方客户端
-# warp-svc &
-# warp-cli register
-# warp-cli set-custom-endpoint <xxx>
-# warp-cli set-mode proxy
-# warp-cli set-proxy-port 1080
-# warp-cli connect
-
 supervisord
