@@ -202,13 +202,6 @@
 		"rules": [
 			{
 				"type": "field",
-				"domain": [
-					"domain:openai.com",
-					"domain:ai.com"
-				],
-				"outboundTag": "WARP"
-			}, {
-				"type": "field",
 				"inboundTag": ["to_warp", "from_vmess_warp", "from_vless_warp", "from_trojan_warp", "from_ss_warp"],
 				"outboundTag": "WARP"
 			}
