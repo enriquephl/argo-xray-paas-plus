@@ -183,7 +183,7 @@
 			"tag": "WARP",
 			"protocol": "wireguard",
 			"settings": {
-				"secretKey": "GAl2z55U2UzNU5FG+LW3kowK+BA/WGMi1dWYwx20pWk=",
+				"secretKey": "#WARP_SECRETKEY#",
 				"address": [
 					"172.16.0.2/32",
 					"2606:4700:110:8f0a:fcdb:db2f:3b3:4d49/128"
