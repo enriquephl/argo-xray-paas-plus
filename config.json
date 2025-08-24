@@ -6,45 +6,6 @@
 	},
 	"inbounds": [
 		{
-			"port": 10000,
-			"listen": "127.0.0.1",
-			"protocol": "vmess",
-			"settings": {
-				"clients": [
-					{
-						"id": "#UUID#",
-						"alterId": 0
-					}
-				]
-			},
-			"streamSettings": {
-				"network": "ws",
-				"wsSettings": {
-					"path": "#VMESS_WSPATH#"
-				}
-			}
-		},
-		{
-			"tag": "from_vmess_warp",
-			"port": 11080,
-			"listen": "127.0.0.1",
-			"protocol": "vmess",
-			"settings": {
-				"clients": [
-					{
-						"id": "#UUID#",
-						"alterId": 0
-					}
-				]
-			},
-			"streamSettings": {
-				"network": "ws",
-				"wsSettings": {
-					"path": "#VMESS_WARP_WSPATH#"
-				}
-			}
-		},
-		{
 			"port": 20000,
 			"listen": "127.0.0.1",
 			"protocol": "vless",
@@ -60,26 +21,6 @@
 				"network": "ws",
 				"wsSettings": {
 					"path": "#VLESS_WSPATH#"
-				}
-			}
-		},
-		{
-			"tag": "from_vless_warp",
-			"port": 21080,
-			"listen": "127.0.0.1",
-			"protocol": "vless",
-			"settings": {
-				"clients": [
-					{
-						"id": "#UUID#"
-					}
-				],
-				"decryption": "none"
-			},
-			"streamSettings": {
-				"network": "ws",
-				"wsSettings": {
-					"path": "#VLESS_WARP_WSPATH#"
 				}
 			}
 		},
@@ -101,101 +42,16 @@
 					"path": "#TROJAN_WSPATH#"
 				}
 			}
-		},
-		{
-			"tag": "from_trojan_warp",
-			"port": 31080,
-			"listen": "127.0.0.1",
-			"protocol": "trojan",
-			"settings": {
-				"clients": [
-					{
-						"password": "#UUID#"
-					}
-				],
-				"decryption": "none"
-			},
-			"streamSettings": {
-				"network": "ws",
-				"wsSettings": {
-					"path": "#TROJAN_WARP_WSPATH#"
-				}
-			}
-		},
-		{
-			"port": 40000,
-			"listen": "127.0.0.1",
-			"protocol": "shadowsocks",
-			"settings": {
-				"clients": [
-					{
-						"method": "chacha20-ietf-poly1305",
-						"password": "#UUID#"
-					}
-				],
-				"decryption": "none"
-			},
-			"streamSettings": {
-				"network": "ws",
-				"wsSettings": {
-					"path": "#SS_WSPATH#"
-				}
-			}
-		},
-		{
-			"tag": "from_ss_warp",
-			"port": 41080,
-			"listen": "127.0.0.1",
-			"protocol": "shadowsocks",
-			"settings": {
-				"clients": [
-					{
-						"method": "chacha20-ietf-poly1305",
-						"password": "#UUID#"
-					}
-				],
-				"decryption": "none"
-			},
-			"streamSettings": {
-				"network": "ws",
-				"wsSettings": {
-					"path": "#SS_WARP_WSPATH#"
-				}
-			}
 		}
 	],
 	"outbounds": [
 		{
 			"protocol": "freedom",
 			"settings": {}
-		},
-		{
-			"tag": "WARP",
-			"protocol": "wireguard",
-			"settings": {
-				"secretKey": "#WARP_SECRETKEY#",
-				"address": [
-					"172.16.0.2/32",
-					"2606:4700:110:8f0a:fcdb:db2f:3b3:4d49/128"
-				],
-				"peers": [
-					{
-						"publicKey": "bmXOC+F1FxEMF9dyiK2H5/1SUtzH0JuVo51h2wPfgyo=",
-						"endpoint": "engage.cloudflareclient.com:2408"
-					}
-				]
-			}
 		}
 	],
 	"routing": {
-		"domainStrategy": "IPIfNonMatch",
-		"rules": [
-			{
-				"type": "field",
-				"inboundTag": ["from_vmess_warp", "from_vless_warp", "from_trojan_warp", "from_ss_warp"],
-				"outboundTag": "WARP"
-			}
-		]
+		"domainStrategy": "AsIs"
 	},
 	"dns": {
 		"server": [

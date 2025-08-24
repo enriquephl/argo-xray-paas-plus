@@ -42,23 +42,23 @@ RUN apt-get install -y supervisor && \
     chmod -v 755 monitor.sh cfd_refresh.sh
 
 # Configure OpenSSH on port 22 and 2222
-RUN apt-get install -y openssh-server && \
-    sed -i '1i\Port 2222' /etc/ssh/sshd_config && \
-    mkdir -p /run/sshd && \
-    mkdir -p /root/.ssh && \
-    touch /root/.ssh/authorized_keys && \
-    chmod 644 /root/.ssh/authorized_keys
+#RUN apt-get install -y openssh-server && \
+#    sed -i '1i\Port 2222' /etc/ssh/sshd_config && \
+#    mkdir -p /run/sshd && \
+#    mkdir -p /root/.ssh && \
+#    touch /root/.ssh/authorized_keys && \
+#    chmod 644 /root/.ssh/authorized_keys
 
 # Configure Dropbear, run along with with OpenSSH on port 2223
-RUN apt-get install --no-install-recommends -y dropbear && \
-    sed -i 's/^NO_START=.*/NO_START=0/' /etc/default/dropbear && \
-    sed -i 's/^DROPBEAR_PORT=.*/DROPBEAR_PORT=2223/' /etc/default/dropbear && \
-    sed -i 's/^DROPBEAR_EXTRA_ARGS=.*/DROPBEAR_EXTRA_ARGS="-s -g"/' /etc/default/dropbear
+#RUN apt-get install --no-install-recommends -y dropbear && \
+#    sed -i 's/^NO_START=.*/NO_START=0/' /etc/default/dropbear && \
+#    sed -i 's/^DROPBEAR_PORT=.*/DROPBEAR_PORT=2223/' /etc/default/dropbear && \
+#    sed -i 's/^DROPBEAR_EXTRA_ARGS=.*/DROPBEAR_EXTRA_ARGS="-s -g"/' /etc/default/dropbear
 
 # Configure agent
-RUN wget -qO temp.zip $(echo aHR0cHM6Ly9naXRodWIuY29tL25haWJhL25lemhhL3JlbGVhc2VzL2xhdGVzdC9kb3dubG9hZC9kYXNoYm9hcmQtbGludXgtYW1kNjQuemlw | base64 --decode) && \
-    unzip -p temp.zip >> agent && \
-    rm -f temp.zip && \
-    chmod +x agent
+#RUN wget -qO temp.zip $(echo aHR0cHM6Ly9naXRodWIuY29tL25haWJhL25lemhhL3JlbGVhc2VzL2xhdGVzdC9kb3dubG9hZC9kYXNoYm9hcmQtbGludXgtYW1kNjQuemlw | base64 --decode) && \
+#    unzip -p temp.zip >> agent && \
+#    rm -f temp.zip && \
+#    chmod +x agent
 
 ENTRYPOINT [ "./entrypoint.sh" ]
