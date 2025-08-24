@@ -14,45 +14,32 @@ back4app可以直接克隆本项目。Codesandbox部署方式参见[codesandbox/
 ## 增强
 
 * `https://<PaaS云服务商分配的域名>/<UUID>.html` 展示了各种配置以及客户端二维码。
-* `https://<PaaS云服务商分配的域名>/<UUID>.json` 为对应的v2ray客户端文件。
-* 增加订阅模式，以防止每次Cloudflare分配的域名改变。可在V2rayA和安卓上的V2rayNG中添加订阅，地址为`https://<PaaS云服务商分配的域名>/<UUID>.txt`。每次发现之前的地址不可用之后先刷新下订阅再尝试连接，如果还不行过30秒刷一次再试，因为容器启动需要时间。
-* `https://<PaaS云服务商分配的域名>/cf.txt` 为最新的Cloudflare分配域名。
-* 增加Cloudflared多次重试，应对Cloudflare偶尔抽风。
-* 在连接路径后面增加"_warp"来使流量全程走Cloudflare Warp。
+* ~~`https://<PaaS云服务商分配的域名>/<UUID>.json` 为对应的v2ray客户端文件。~~
+* 增加订阅模式，以防止每次 Cloudflare 分配的域名改变。可在 V2rayA 和安卓上的 V2rayNG 中添加订阅，地址为 `https://<PaaS云服务商分配的域名>/<UUID>.txt`。每次发现之前的地址不可用之后先刷新下订阅再尝试连接，如果还不行过 30 秒刷一次再试，因为容器启动需要时间。
+* `https://<PaaS云服务商分配的域名>/cf.txt` 为最新的 Cloudflare 分配域名。
+* 增加 Cloudflared 多次重试，应对 Cloudflare 偶尔抽风。
+* ~~在连接路径后面增加"_warp"来使流量全程走Cloudflare Warp。~~
 * `https://<PaaS云服务商分配的域名>/<UUID>.rootfs/`可直接下载rootfs中的内容（可在nginx.conf中删除相关段以禁用）。
 
 ### Cloudflare固定隧道
 
-使用固定隧道需要设置ARGO_AUTH（Token，一长串Base64编码字符，可在Cloudflare官网隧道的Overview页面里找到），并在Cloudflare官网上配置一个Tunnel的Public Hostname，其服务需要指向`127.0.0.1:8080`。
-如果未设置ARGO_AUTH则不启用该特性。启用固定隧道并不会禁用trycloudflare.com的域名。
+使用固定隧道需要设置 ARGO_AUTH（Token，一长串 Base64 编码字符，可在 Cloudflare 官网隧道的Overview页面里找到），并在 Cloudflare 官网上配置一个 Tunnel 的 Public Hostname，其服务需要指向`127.0.0.1:8080`。
+如果未设置 ARGO_AUTH 则不启用该特性。启用固定隧道并不会禁用 trycloudflare.com 的域名。
 
 固定隧道的地址为类似`https://固定通道的域名/VMESS_WSPATH`，端口，UUID等其他设置与非固定隧道的配置一样。
-
-### 远程管理
-
-* 增加ssh服务器，可连接至后台。该ssh服务在公网上不可见，需要以无"_warp"的路径连接到节点，然后通过代理来连接：`ssh root@127.0.0.1 -p2223 -v -o StrictHostKeyChecking=no -o ProxyCommand="/usr/bin/nc -x 127.0.0.1:1080 %h %p"`，其中127.0.0.1:1080为本地socks5服务器。
-* 有两种ssh服务器，sshd监听22和2222端口，dropbear监听2223端口。如果22端口不可用则可以在ssh命令后面增加`-p 端口`来使用其他端口连接。
-* ssh大多数情况下默认登录到root用户。
-* ssh服务器仅支持Key的方式登录，可以设置环境变量`SSH_PUBKEY`、`SSH_PUBKEY2`、`SSH_PUBKEY3`和`SSH_PUBKEY4`，最多支持4个Key。
 
 ## 部署
 
 * 注册任意一家 PaaS 云服务商
 * 根据 PaaS 云服务商的不同绑定自己的 GitHub 账户或使用项目提供的 Actions 生成 DockerHub 镜像，严重建议小号 + 私库
 * 项目可用到的变量
-  | 变量名 | 是否必须 | 默认值 | 备注 |
+  | 变量名 | 必须 | 默认值 | 备注 |
   | ------------ | ------ | ------ | ------ |
   | UUID         | 否 | de04add9-5c68-8bab-950c-08cd5320df18 | 可在线生成 https://www.uuidgenerator.net/ |
-  | ARGO_AUTH    | 否 |    | Cloudflare固定隧道的Token(一长串Base64编码字符) |
-  | VMESS_WSPATH  | 否 | /vmess | 以 / 开头 |
-  | VMESS_WSPATH_WARP  | 否 | /vmess_warp | 以 / 开头 |
+  | ARGO_AUTH    | 是 |  | Cloudflare 固定隧道的 Token (一长串 Base64 编码字符) |
+  | ARGO_HOSTNAME | 是 |  | Cloudflare 固定隧道的域名 |
   | VLESS_WSPATH  | 否 | /vless | 以 / 开头 |
-  | VLESS_WSPATH_WARP  | 否 | /vless_warp | 以 / 开头 |
   | TROJAN_WSPATH | 否 | /trojan | 以 / 开头 |
-  | TROJAN_WSPATH_WARP | 否 | /trojan_warp | 以 / 开头 |
-  | SS_WSPATH     | 否 | /shadowsocks | 以 / 开头 |
-  | SS_WSPATH_WARP     | 否 | /shadowsocks_warp | 以 / 开头 |
-  | AGENT  | 否 |     | 哪吒探针的配置，格式为`-s <RPC服务端IP或域名>:<端口> -p <密钥Key>`，空格分格，可附加其他参数如`--tls` |
 
 * GitHub Actions 用到的变量
 
